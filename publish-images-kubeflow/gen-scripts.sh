@@ -20,7 +20,7 @@ TKG_CUSTOM_IMAGE_REPOSITORY=${TKG_CUSTOM_IMAGE_REPOSITORY:-''}
 TKG_IMAGES_DOWNLOAD_FOLDER=${TKG_IMAGES_DOWNLOAD_FOLDER:-''}
 
 GENERATED_DEPLOY_FOLDER="../generated-deploy"
-EXTRACTED_IMAGE_REPO_FILE="extracted-image-repo-list"
+EXTRACTED_IMAGE_REPO_FILE="extracted-image-repo-list-from-deploy"
 
 if [ -z "$TKG_CUSTOM_IMAGE_REPOSITORY" ]; then
   echo "TKG_CUSTOM_IMAGE_REPOSITORY variable is required but is not defined" >&2
