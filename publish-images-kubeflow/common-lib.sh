@@ -13,7 +13,7 @@ get_image_tag(){
 ## return filename path
 gen_download_tar_name(){
    ## remove domain.
-   contexts=`echo $1 | cut -d'/' -f2- | sed 's/[@\/]/__/g'`
+   contexts=`echo $1 | cut -d'/' -f1- | sed 's/[@\/]/__/g'`
    ##tarName=`basename $1 | awk -F":" '{print $1"__"$2}'`
    echo "${contexts}.imgpkg"
 }
@@ -27,8 +27,8 @@ download_image(){
   set -e
   downloadTarName="$(gen_download_tar_name $actualImageRepo)"
   downloadTarSuccess="$TKG_IMAGES_DOWNLOAD_FOLDER/$downloadTarName"
-  downloadTarTmp="/tmp/tkg/$downloadTarName"
-  mkdir -p "/tmp/tkg/"
+  downloadTarTmp="/tmp/publish-image/$downloadTarName"
+  mkdir -p "/tmp/publish-image/"
   if [ -f "$downloadTarSuccess" ]; then
     echo "- skip downloading. tar image alreay exists in $downloadTarSuccess"
   else
