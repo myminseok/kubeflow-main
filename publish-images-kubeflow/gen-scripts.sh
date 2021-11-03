@@ -4,20 +4,15 @@ source no-internet-env.sh
 
 set -eo pipefail
 
+## required: define source file folder to work
+SOURCE_DEPLOY_FOLDER="${SOURCE_DEPLOY_FOLDER:-''}"
+
+## optional:
 ## define image url to skip from download, upload script.
 ## - <image-repository-context>
 ## - <image-registry-domain>/<image-registry-context>
-EXCLUDE_IMAGE_CONTEXTS=("value" "#" "Look" "for" "specific" "tags" "for" "each" "image" \
-	"istio" \
-	"tritonserver" \
-       	"seldonio/mlserver" \
-	"ml-pipeline/frontend" \
-	"ml-pipeline/visualization-server" \
-	"nvidia/tritonserver" \
-	"google-containers/busybox")
-
-## define source file folder to work
-SOURCE_DEPLOY_FOLDER="../generated-deploy"
+#EXCLUDE_IMAGE_CONTEXTS=("value" "#" "Look" "for" "specific" "tags" "for" "each" "image") 
+EXCLUDE_IMAGE_CONTEXTS="${EXCLUDE_IMAGE_CONTEXTS:-''}"
 
 ## internal variables-------------------------------------------------------
 SOURCE_FILES_EXTRACTED="_tmp_source_files"
@@ -28,6 +23,11 @@ TKG_CUSTOM_IMAGE_REPOSITORY=${TKG_CUSTOM_IMAGE_REPOSITORY:-''}
 TKG_IMAGES_DOWNLOAD_FOLDER=${TKG_IMAGES_DOWNLOAD_FOLDER:-''}
 
 ## code begins ------------------------------------------------------
+if [ -z "$SOURCE_DEPLOY_FOLDER" ]; then
+  echo "SOURCE_DEPLOY_FOLDER variable is required but is not defined" >&2
+  exit 1
+fi
+
 if [ -z "$TKG_CUSTOM_IMAGE_REPOSITORY" ]; then
   echo "TKG_CUSTOM_IMAGE_REPOSITORY variable is required but is not defined" >&2
   exit 1
