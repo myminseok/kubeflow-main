@@ -16760,7 +16760,7 @@ data:
         },
         "sklearn": {
           "v1": {
-                  "image": "kfserving/sklearnserver:v0.6.1",
+            "image": "kfserving/sklearnserver:v0.6.1",
             "defaultImageVersion": "v0.6.1",
             "supportedFrameworks": [
               "sklearn"
@@ -16778,7 +16778,7 @@ data:
         },
         "xgboost": {
           "v1": {
-                  "image": "kfserving/xgbserver:v0.6.1",
+            "image": "kfserving/xgbserver:v0.6.1",
             "defaultImageVersion": "v0.6.1",
             "supportedFrameworks": [
               "xgboost"
@@ -16796,7 +16796,7 @@ data:
         },
         "pytorch": {
           "v1" : {
-                  "image": "kfserving/pytorchserver:v0.6.1",
+            "image": "kfserving/pytorchserver:v0.6.1",
             "defaultImageVersion": "v0.6.1",
             "defaultGpuImageVersion": "v0.6.1-gpu",
             "supportedFrameworks": [
@@ -16805,7 +16805,7 @@ data:
             "multiModelServer": false
           },
           "v2" : {
-                  "image": "pytorch/torchserve-kfs:0.4.0",
+            "image": "pytorch/torchserve-kfs:0.4.0",
             "defaultImageVersion": "0.4.0",
             "defaultGpuImageVersion": "0.4.0-gpu",
             "supportedFrameworks": [
