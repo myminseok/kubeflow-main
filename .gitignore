@@ -1,4 +1,1 @@
-manifests
-kustomize_3.2.0_linux_amd64
-converted-deploy
-generated-deploy
+manifests/
