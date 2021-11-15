@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OUTPUT_FOLDER="./generated-deploy"
-SOURCE_MANIFEST_FOLDER="./kubeflow-manifests-v1.4.0"
+SOURCE_MANIFEST_FOLDER="./manifests"
 mkdir -p $OUTPUT_FOLDER
 ##while ! kustomize build $SOURCE_MANIFEST_FOLDER/example | tee file.yml; do echo "Retrying to apply resources"; sleep 10; done
 kustomize build $SOURCE_MANIFEST_FOLDER/example > kubeflow-all-in-one.yml
