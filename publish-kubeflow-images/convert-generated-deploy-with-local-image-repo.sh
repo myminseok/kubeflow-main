@@ -1,16 +1,26 @@
 #!/bin/bash
 
 set -e
-SOURCE_FOLDER="../generated-deploy"
+source no-internet-env.sh
+
+## required: define source file folder to work
+SOURCE_DEPLOY_FOLDER="${SOURCE_DEPLOY_FOLDER:-''}"
+EXTRACTED_IMAGE_REPO_FILE="${EXTRACTED_IMAGE_REPO_FILE:-''}"
 CONVERTED_FOLDER="../converted-deploy"
-EXTRACTED_IMAGE_REPO_FILE="extracted-image-repo-list-from-deploy"
+
+## code begins ------------------------------------------------------
+if [ -z "$SOURCE_DEPLOY_FOLDER" ]; then
+  echo "SOURCE_DEPLOY_FOLDER variable is required but is not defined" >&2
+  exit 1
+fi
+
 
 mkdir -p $CONVERTED_FOLDER
-source_files=$(ls -al $SOURCE_FOLDER | grep "yml" | awk '{print $9}')
+source_files=$(ls -al $SOURCE_DEPLOY_FOLDER | grep "yml" | awk '{print $9}')
 for source_file in ${source_files}; do
   filename=$(echo $source_file | cut -d'/' -f2)
-  echo "converting ...  $SOURCE_FOLDER/$filename"
-  cp $SOURCE_FOLDER/$filename  $CONVERTED_FOLDER/$filename
+  echo "converting ...  $SOURCE_DEPLOY_FOLDER/$filename"
+  cp $SOURCE_DEPLOY_FOLDER/$filename  $CONVERTED_FOLDER/$filename
   ## replace all double quote domain :
   ##  "image": "docker.io/a/b:v1"  ---->  image: local-domain/a/b:v1 
   sed -i 's/ ["]*image["]*: [a-z0-9\-\."]*\// image: infra-harbor.lab.pcfdemo.net\/kubeflow\//g'  $CONVERTED_FOLDER/$filename

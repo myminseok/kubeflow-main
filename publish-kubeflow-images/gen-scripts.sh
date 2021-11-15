@@ -1,11 +1,13 @@
 #!/bin/bash
 
-source no-internet-env.sh
-
 set -eo pipefail
+source no-internet-env.sh
 
 ## required: define source file folder to work
 SOURCE_DEPLOY_FOLDER="${SOURCE_DEPLOY_FOLDER:-''}"
+TKG_CUSTOM_IMAGE_REPOSITORY=${TKG_CUSTOM_IMAGE_REPOSITORY:-''}
+TKG_IMAGES_DOWNLOAD_FOLDER=${TKG_IMAGES_DOWNLOAD_FOLDER:-''}
+EXTRACTED_IMAGE_REPO_FILE="${EXTRACTED_IMAGE_REPO_FILE:-''}"
 
 ## optional:
 ## define image url to skip from download, upload script.
@@ -15,12 +17,8 @@ SOURCE_DEPLOY_FOLDER="${SOURCE_DEPLOY_FOLDER:-''}"
 EXCLUDE_IMAGE_CONTEXTS="${EXCLUDE_IMAGE_CONTEXTS:-''}"
 
 ## internal variables-------------------------------------------------------
-SOURCE_FILES_EXTRACTED="_tmp_source_files"
-IMAGE_REPOS_EXTRACTED="_tmp_image_repos"
 OUTPUT_DOWNLOAD_SCRIPT="download-images.sh"
 OUTPUT_UPLOAD_SCRIPT="upload-images.sh"
-TKG_CUSTOM_IMAGE_REPOSITORY=${TKG_CUSTOM_IMAGE_REPOSITORY:-''}
-TKG_IMAGES_DOWNLOAD_FOLDER=${TKG_IMAGES_DOWNLOAD_FOLDER:-''}
 
 ## code begins ------------------------------------------------------
 if [ -z "$SOURCE_DEPLOY_FOLDER" ]; then
@@ -45,34 +43,26 @@ if [ -n "$TKG_CUSTOM_IMAGE_REPOSITORY_CA_CERTIFICATE" ]; then
   echo "generated ./cacrtbase64d.crt"
 fi
 
-extract_source_files(){
-  echo "selecting deployment files as source  ..."
-  set +e
-  ls -al $SOURCE_DEPLOY_FOLDER | grep "yml" | awk '{print $9}' > $SOURCE_FILES_EXTRACTED
-  cat $SOURCE_FILES_EXTRACTED
-  echo "  generated $SOURCE_FILES_EXTRACTED"
-}
-
 ## kubeflow uses docker image with various format, different style. 
 ## to include as much images list as possible, extract container image repo list from kubeflow deployment scripts.
-## this list will be used to generate download and upload images script.
+## this list will be used to generate download/upload images script and convert-generated-deploy-with-local-image-repo.sh
 extract_all_image_repo_list(){
-  echo "extracting image repo list from deployment scripts ..."
-  TMP_FILE="/tmp/${IMAGE_REPOS_EXTRACTED}.tmp"
-  echo ""> $TMP_FILE
-  echo "" > $IMAGE_REPOS_EXTRACTED
   set +e
-  while IFS= read -r source_file; do
+  echo "selecting deployment files as source  ..."
+  source_files=$(ls -al $SOURCE_DEPLOY_FOLDER | grep "yml" | awk '{print $9}')
+  echo "extracting image repo list from deployment scripts ..."
+  TMP_FILE="/tmp/${EXTRACTED_IMAGE_REPO_FILE}.tmp"
+  echo "" > $TMP_FILE
+  echo "" > $EXTRACTED_IMAGE_REPO_FILE
+  for source_file in ${source_files}; do
     grep -e '[a-zA-Z0-9_\-\.]*\/' "$SOURCE_DEPLOY_FOLDER/$source_file" \
 	    | grep "image" | grep -v "http" | grep -v "{{" | sed 's/"//g' \
 	    | awk -F'image:' '{print $2}' | sed 's/http:\/\///;s|\/.*||' | sed 's/ //g' >> $TMP_FILE
-  done < $SOURCE_FILES_EXTRACTED
+  done
 
-  sort $TMP_FILE | uniq  > $IMAGE_REPOS_EXTRACTED
-  while IFS= read -r image_repo; do
-    echo "    $image_repo"
-  done < $IMAGE_REPOS_EXTRACTED
-  echo "  generated $IMAGE_REPOS_EXTRACTED"
+  sort $TMP_FILE | uniq  > $EXTRACTED_IMAGE_REPO_FILE
+  cat $EXTRACTED_IMAGE_REPO_FILE
+  echo "  generated $EXTRACTED_IMAGE_REPO_FILE"
 }
 
 
@@ -129,7 +119,7 @@ generate_script(){
     if [ -z "${image_repo}" ]; then
       continue
     fi
-    echo "processing $COMMAND for ${image_repo} ..."
+    echo "generating $COMMAND command for image repo: ${image_repo} ..."
     ## abc.com/a:v1
     echo "grep -r $image_repo $SOURCE_DEPLOY_FOLDER/*.yml |  awk -F\"$image_repo/\" '{print \$2}' |sed 's/[\",()]//g' | sed 's/^\///g' | awk -F'\' '{print \$1}'"
     actualImageList=$(grep -r "$image_repo" $SOURCE_DEPLOY_FOLDER/*.yml |  awk -F"$image_repo/" '{print $2}' |sed 's/[",()]//g' | sed 's/^\///g' | awk -F'\' '{print $1}' )
@@ -147,7 +137,7 @@ generate_script(){
       customImage=$TKG_CUSTOM_IMAGE_REPOSITORY/${imageContext} 
       echo "$COMMAND -i $actualImageAdjusted --to-repo $customImage --registry-ca-cert-path /tmp/cacrtbase64d.crt" >> $OUTPUT_TMP
     done
-  done < $IMAGE_REPOS_EXTRACTED
+  done < $EXTRACTED_IMAGE_REPO_FILE
 
   echo "#!/bin/bash" > $OUTPUT_FILE
   echo "export TKG_IMAGES_DOWNLOAD_FOLDER=$TKG_IMAGES_DOWNLOAD_FOLDER" >> $OUTPUT_FILE
@@ -158,9 +148,7 @@ generate_script(){
   echo "generated $OUTPUT_FILE"
 }
 
-extract_source_files
 extract_all_image_repo_list
-
 generate_script "download_image" $OUTPUT_DOWNLOAD_SCRIPT
 generate_script "upload_image"  $OUTPUT_UPLOAD_SCRIPT
 sed 's/download_image/rename_downloaded_image/g' $OUTPUT_DOWNLOAD_SCRIPT> rename-downloaded-images.sh
