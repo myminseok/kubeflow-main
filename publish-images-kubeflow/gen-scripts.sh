@@ -163,3 +163,5 @@ extract_all_image_repo_list
 
 generate_script "download_image" $OUTPUT_DOWNLOAD_SCRIPT
 generate_script "upload_image"  $OUTPUT_UPLOAD_SCRIPT
+sed 's/download_image/rename_downloaded_image/g' $OUTPUT_DOWNLOAD_SCRIPT> rename-downloaded-images.sh
+chmod +x rename-downloaded-images.sh

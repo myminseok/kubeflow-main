@@ -9,20 +9,19 @@ mkdir -p $CONVERTED_FOLDER
 source_files=$(ls -al $SOURCE_FOLDER | grep "yml" | awk '{print $9}')
 for source_file in ${source_files}; do
   filename=$(echo $source_file | cut -d'/' -f2)
-  echo "converting ...  $CONVERTED_FOLDER/$filename"
-  cp $SOURCE_FOLDER/$filename $CONVERTED_FOLDER/$filename
-  ## replace the first domain name 
-  ## image: docker.io/a/b:v1 ==> image: infra-harbor.lab.pcfdemo.net/a/b:v1
+  echo "converting ...  $SOURCE_FOLDER/$filename"
+  cp $SOURCE_FOLDER/$filename  $CONVERTED_FOLDER/$filename
+  ## replace all double quote domain :
+  ##  "image": "docker.io/a/b:v1"  ---->  image: local-domain/a/b:v1 
   sed -i 's/ ["]*image["]*: [a-z0-9\-\."]*\// image: infra-harbor.lab.pcfdemo.net\/kubeflow\//g'  $CONVERTED_FOLDER/$filename
-
-
+  ## image: docker.io/a/b:v1 ==> image: infra-harbor.lab.pcfdemo.net/a/b:v1
   ## replace with exracted domain name 
   while IFS= read -r image_repo_domain; do
     if [ -z "${image_repo_domain}" ]; then
       continue
     fi
-    echo "   converting for ${image_repo_domain} ..."
-    command="sed -i 's/$image_repo_domain/infra-harbor.lab.pcfdemo.net\/kubeflow/g' $CONVERTED_FOLDER/$filename"
+    echo "   converting domain ${image_repo_domain} to local domain..."
+    command="sed -i 's/image: ${image_repo_domain}/image: infra-harbor.lab.pcfdemo.net\/kubeflow/g' $CONVERTED_FOLDER/$filename"
     eval $command
   done < $EXTRACTED_IMAGE_REPO_FILE
 
