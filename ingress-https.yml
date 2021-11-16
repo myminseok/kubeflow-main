@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned-issuer
+    kubernetes.io/ingress.allow-http: "false"
+  name: kubeflow-ingress-https
+  namespace: istio-system 
+spec:
+  tls:
+  - hosts:
+    - kubeflow.mvp.bsl.local
+    secretName: kubeflow-tls
+  rules:
+  - host: kubeflow.mvp.bsl.local
+    http:
+      paths:
+      - backend:
+          serviceName: istio-ingressgateway
+          servicePort: 80
+
+
