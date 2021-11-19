@@ -63,4 +63,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> cur.execute("SELECT * FROM test;")
 >>> records=cur.fetchall()
 >>> 
+>>> print(records)
+[(2,), (1,)]
+>>> 
 ```
