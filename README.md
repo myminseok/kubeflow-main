@@ -132,8 +132,16 @@ add lines from 68 - 79 for Upgrade HTTP to HTTPS
 ```
 
 #### cert-manager
+you can use cert-manager included in kubeflow, but tkg-extension also uses cert-manager. and if you delete kubeflow, it may delete cert-manager by mistake. then it may break tkg-extension too. we recommend to use cert-manager from tkg-extension. so lets  delete converted-deploy/11_common_cert-manager.yml.
 
-delete converted-deploy/11_common_cert-manager.yml. we will use cert-manager from tkg-extension.
+```
+tanzu package install cert-manager --package-name cert-manager.tanzu.vmware.com --namespace tkg-extensions --version 1.1.0+vmware.1-tkg.2 --create-namespace
+
+kubectl get app -A
+
+tanzu package installed list -A
+```
+https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/1.4/vmware-tanzu-kubernetes-grid-14/GUID-packages-cert-manager.html
 
 
 ### generate kubeflow domain certificate
