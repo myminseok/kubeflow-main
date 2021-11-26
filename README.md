@@ -191,6 +191,7 @@ watch kubectl get po --field-selector=status.phase!=Running -A
 ### Troubleshooting
 
 #### AVI virtual service is not assigned, 'pending'
+this will be impreved on next AVI version.
 ```
 kubectl get svc -n istio-system
 
@@ -224,3 +225,11 @@ Successfully deleted default-tkc-kubeflow--istio-system-istio-ingressgateway.
 ```
 
 go back to AVI UI, and delete virtual service and related objects. delete the pool. now you can delete and redeploy ingress object on kubernetes.
+
+### looping to delete notebooks 
+```
+kubectl get notebooks -A
+
+kubectl delete notebook <NAME> -n kubeflow-user-example-com
+```
+ref https://www.kubeflow.org/docs/components/notebooks/troubleshooting/
