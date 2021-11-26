@@ -191,7 +191,7 @@ watch kubectl get po --field-selector=status.phase!=Running -A
 ### Troubleshooting
 
 #### AVI virtual service is not assigned, 'pending'
-this will be impreved on next AVI version.
+this will be impreved on next AVI version (higher than 20.1.6)
 ```
 kubectl get svc -n istio-system
 
