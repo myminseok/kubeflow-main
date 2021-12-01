@@ -12,4 +12,3 @@ spec:
     services:
     - name: istio-ingressgateway
       port: 443
-
