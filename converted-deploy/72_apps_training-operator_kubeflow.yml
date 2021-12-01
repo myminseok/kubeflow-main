@@ -27935,7 +27935,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/j1r0q0g6/training/training-operator:760ac1171dd30039a7363ffa03c77454bd714da5
+        image: public.ecr.aws/j1r0q0g6/training/training-operator:760ac1171dd30039a7363ffa03c77454bd714da5
         livenessProbe:
           httpGet:
             path: /healthz

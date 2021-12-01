@@ -484,7 +484,7 @@ spec:
         envFrom:
         - configMapRef:
             name: profiles-config-2g29dd2mbd
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/j1r0q0g6/notebooks/access-management:v1.4
+        image: public.ecr.aws/j1r0q0g6/notebooks/access-management:v1.4
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -508,7 +508,7 @@ spec:
         envFrom:
         - configMapRef:
             name: profiles-config-2g29dd2mbd
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/j1r0q0g6/notebooks/profile-controller:v1.4
+        image: public.ecr.aws/j1r0q0g6/notebooks/profile-controller:v1.4
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

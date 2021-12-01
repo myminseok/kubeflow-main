@@ -687,7 +687,7 @@ spec:
           value: kubeflow-userid
         - name: USERID_PREFIX
           value: ""
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/j1r0q0g6/notebooks/jupyter-web-app:v1.4
+        image: public.ecr.aws/j1r0q0g6/notebooks/jupyter-web-app:v1.4
         name: jupyter-web-app
         ports:
         - containerPort: 5000

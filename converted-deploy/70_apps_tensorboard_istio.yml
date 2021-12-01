@@ -192,7 +192,7 @@ spec:
           value: kubeflow-userid
         - name: USERID_PREFIX
           value: ""
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/j1r0q0g6/notebooks/tensorboards-web-app:v1.4
+        image: public.ecr.aws/j1r0q0g6/notebooks/tensorboards-web-app:v1.4
         name: tensorboards-web-app
         ports:
         - containerPort: 5000

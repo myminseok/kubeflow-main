@@ -100,34 +100,34 @@ change istio-ingressgateway to service type LoadBalancer
 ####  converted-deploy/38_common_kubeflow-istio-resources.yml
 add lines from 68 - 79 for Upgrade HTTP to HTTPS
 ```
- 52 ---
- 53 apiVersion: networking.istio.io/v1alpha3
- 54 kind: Gateway
- 55 metadata:
- 56   name: kubeflow-gateway
- 57   namespace: kubeflow
- 58 spec:
- 59   selector:
- 60     istio: ingressgateway
- 61   servers:
- 62   - hosts:
- 63     - '*'
- 64     port:
- 65       name: http
- 66       number: 80
- 67       protocol: HTTP
- 68 # Upgrade HTTP to HTTPS
- 69     tls:
- 70       httpsRedirect: true
- 71   - hosts:
- 72     - "*"
- 73     port:
- 74       name: https
- 75       number: 443
- 76       protocol: HTTPS
- 77     tls:
- 78       mode: SIMPLE
- 79       credentialName: kubeflow-tls
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: kubeflow-gateway
+  namespace: kubeflow
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - '*'
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+# Upgrade HTTP to HTTPS
+    tls:
+      httpsRedirect: true
+  - hosts:
+    - "*"
+    port:
+      name: https
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: kubeflow-tls
 
 ```
 
@@ -186,6 +186,12 @@ service/knative-local-gateway   ClusterIP      100.64.42.127    <none>          
 check pod status
 ```
 watch kubectl get po --field-selector=status.phase!=Running -A
+```
+
+```
+kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
+
+kubectl port-forward svc/istio-ingressgateway -n istio-system 8443:443
 ```
 
 ### Troubleshooting

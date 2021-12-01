@@ -1,0 +1,15 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: kubeflow-httpproxy-bypass
+  namespace: istio-system
+spec:
+  virtualhost:
+    fqdn: kubeflow.lab.pcfdemo.net
+    tls:
+      passthrough: true
+  tcpproxy:
+    services:
+    - name: istio-ingressgateway
+      port: 443
+

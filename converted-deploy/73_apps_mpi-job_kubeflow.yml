@@ -359,7 +359,7 @@ subjects:
 ---
 apiVersion: v1
 data:
-  kubectl-delivery-image: infra-harbor.lab.pcfdemo.net/kubeflow/kubectl-delivery:latest
+  kubectl-delivery-image: mpioperator/kubectl-delivery:latest
   lock-namespace: kubeflow
 kind: ConfigMap
 metadata:
@@ -408,7 +408,7 @@ spec:
         - mpioperator/kubectl-delivery:latest
         command:
         - /opt/mpi-operator.v1
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/mpi-operator:0.3.0
+        image: mpioperator/mpi-operator:0.3.0
         imagePullPolicy: Always
         name: mpi-operator
       serviceAccountName: mpi-operator

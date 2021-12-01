@@ -324,7 +324,7 @@ spec:
           value: "false"
         - name: DASHBOARD_LINKS_CONFIGMAP
           value: centraldashboard-config
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/j1r0q0g6/notebooks/central-dashboard:v1.4
+        image: public.ecr.aws/j1r0q0g6/notebooks/central-dashboard:v1.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

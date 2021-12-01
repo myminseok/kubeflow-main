@@ -9421,7 +9421,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/knative-releases/knative.dev/eventing/cmd/controller@sha256:6ddffbc286a84048cfd090193d00b4ecda25a3a7bf2de1a8e873f8b3755cc913
+        image: gcr.io/knative-releases/knative.dev/eventing/cmd/controller@sha256:6ddffbc286a84048cfd090193d00b4ecda25a3a7bf2de1a8e873f8b3755cc913
         name: eventing-controller
         ports:
         - containerPort: 9090
@@ -9497,7 +9497,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/knative-releases/knative.dev/eventing/cmd/webhook@sha256:9f70a2a8bb78781472fba0327c5d6ff91f13a29736d4502bf8ad3d60d3f16ccd
+        image: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook@sha256:9f70a2a8bb78781472fba0327c5d6ff91f13a29736d4502bf8ad3d60d3f16ccd
         livenessProbe:
           httpGet:
             httpHeaders:
@@ -9583,7 +9583,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller@sha256:904f42a768a9bc64999e7302d2bc7c1c48a08e74a82355cf57be513e6a124b82
+        image: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller@sha256:904f42a768a9bc64999e7302d2bc7c1c48a08e74a82355cf57be513e6a124b82
         name: controller
         ports:
         - containerPort: 9090
@@ -9658,7 +9658,7 @@ spec:
           value: "1000"
         - name: MAX_IDLE_CONNS_PER_HOST
           value: "1000"
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher@sha256:a6983f71c04619928199cc21e07ee6f1e1c87586621bc03b10c9ba1abd92bfa8
+        image: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher@sha256:a6983f71c04619928199cc21e07ee6f1e1c87586621bc03b10c9ba1abd92bfa8
         livenessProbe:
           failureThreshold: 3
           httpGet:
@@ -9744,7 +9744,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/knative-releases/knative.dev/eventing/cmd/mtchannel_broker@sha256:a2678934d280ea19b0804cc7757d559a0312e2acea221b17a99bd830cd9eeaac
+        image: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker@sha256:a2678934d280ea19b0804cc7757d559a0312e2acea221b17a99bd830cd9eeaac
         name: mt-broker-controller
         ports:
         - containerPort: 9090
@@ -9813,7 +9813,7 @@ spec:
           value: knative.dev/internal/eventing
         - name: FILTER_PORT
           value: "8080"
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/knative-releases/knative.dev/eventing/cmd/broker/filter@sha256:0e25aa1613a3a1779b3f7b7f863e651e5f37520a7f6808ccad2164cc2b6a9b12
+        image: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter@sha256:0e25aa1613a3a1779b3f7b7f863e651e5f37520a7f6808ccad2164cc2b6a9b12
         livenessProbe:
           failureThreshold: 3
           httpGet:
@@ -9904,7 +9904,7 @@ spec:
           value: knative.dev/internal/eventing
         - name: INGRESS_PORT
           value: "8080"
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/knative-releases/knative.dev/eventing/cmd/broker/ingress@sha256:cf579f88aa2a37c240e25bb886c1ef5404e326e12c7caf571e49308612243eee
+        image: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress@sha256:cf579f88aa2a37c240e25bb886c1ef5404e326e12c7caf571e49308612243eee
         livenessProbe:
           failureThreshold: 3
           httpGet:
@@ -9994,7 +9994,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/knative-releases/knative.dev/eventing/cmd/mtping@sha256:edf462d03591e53e536640591a53538e6bea837fea15ed081eccfb42bc35a5c0
+        image: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping@sha256:edf462d03591e53e536640591a53538e6bea837fea15ed081eccfb42bc35a5c0
         name: dispatcher
         ports:
         - containerPort: 9090

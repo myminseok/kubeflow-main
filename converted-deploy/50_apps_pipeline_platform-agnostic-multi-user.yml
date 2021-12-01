@@ -1881,7 +1881,7 @@ data:
     defaults are used if those environment variables are not set\n    to enable backwards
     compatibility with previous versions of this script:\n        visualization_server_image:
     gcr.io/ml-pipeline/visualization-server\n        visualization_server_tag: value
-    of KFP_VERSION environment variable\n        frontend_image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/frontend\n
+    of KFP_VERSION environment variable\n        frontend_image: gcr.io/ml-pipeline/frontend\n
     \       frontend_tag: value of KFP_VERSION environment variable\n        disable_istio_sidecar:
     Required (no default)\n        minio_access_key: Required (no default)\n        minio_secret_key:
     Required (no default)\n    \"\"\"\n    settings = dict()\n    settings[\"controller_port\"]
@@ -2437,7 +2437,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/cache-deployer:1.7.0
+        image: gcr.io/ml-pipeline/cache-deployer:1.7.0
         imagePullPolicy: Always
         name: main
       restartPolicy: Always
@@ -2518,7 +2518,7 @@ spec:
               name: mysql-secret
         - name: NAMESPACE_TO_WATCH
           value: ""
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/cache-server:1.7.0
+        image: gcr.io/ml-pipeline/cache-server:1.7.0
         imagePullPolicy: Always
         name: server
         ports:
@@ -2626,7 +2626,7 @@ spec:
         component: metadata-envoy
     spec:
       containers:
-      - image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/metadata-envoy:1.7.0
+      - image: gcr.io/ml-pipeline/metadata-envoy:1.7.0
         name: container
         ports:
         - containerPort: 9090
@@ -2691,7 +2691,7 @@ spec:
             configMapKeyRef:
               key: dbPort
               name: pipeline-install-config
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/tfx-oss-public/ml_metadata_store_server:1.0.0
+        image: gcr.io/tfx-oss-public/ml_metadata_store_server:1.0.0
         livenessProbe:
           initialDelaySeconds: 3
           periodSeconds: 5
@@ -2740,7 +2740,7 @@ spec:
       - env:
         - name: NAMESPACE_TO_WATCH
           value: ""
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/metadata-writer:1.7.0
+        image: gcr.io/ml-pipeline/metadata-writer:1.7.0
         name: main
       serviceAccountName: kubeflow-pipelines-metadata-writer
 ---
@@ -2780,7 +2780,7 @@ spec:
             secretKeyRef:
               key: secretkey
               name: mlpipeline-minio-artifact
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/minio:RELEASE.2019-08-14T20-37-41Z-license-compliance
+        image: gcr.io/ml-pipeline/minio:RELEASE.2019-08-14T20-37-41Z-license-compliance
         name: minio
         ports:
         - containerPort: 9000
@@ -2889,7 +2889,7 @@ spec:
         envFrom:
         - configMapRef:
             name: pipeline-api-server-config-f4t72426kt
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/api-server:1.7.0
+        image: gcr.io/ml-pipeline/api-server:1.7.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -2962,7 +2962,7 @@ spec:
           value: "86400"
         - name: NUM_WORKERS
           value: "2"
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/persistenceagent:1.7.0
+        image: gcr.io/ml-pipeline/persistenceagent:1.7.0
         imagePullPolicy: IfNotPresent
         name: ml-pipeline-persistenceagent
         resources:
@@ -3007,7 +3007,7 @@ spec:
             configMapKeyRef:
               key: cronScheduleTimezone
               name: pipeline-install-config
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/scheduledworkflow:1.7.0
+        image: gcr.io/ml-pipeline/scheduledworkflow:1.7.0
         imagePullPolicy: IfNotPresent
         name: ml-pipeline-scheduledworkflow
       serviceAccountName: ml-pipeline-scheduledworkflow
@@ -3073,7 +3073,7 @@ spec:
               name: mlpipeline-minio-artifact
         - name: ALLOW_CUSTOM_VISUALIZATIONS
           value: "true"
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/frontend:1.7.0
+        image: gcr.io/ml-pipeline/frontend:1.7.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -3154,7 +3154,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/viewer-crd-controller:1.7.0
+        image: gcr.io/ml-pipeline/viewer-crd-controller:1.7.0
         imagePullPolicy: Always
         name: ml-pipeline-viewer-crd
       serviceAccountName: ml-pipeline-viewer-crd-service-account
@@ -3187,7 +3187,7 @@ spec:
         application-crd-id: kubeflow-pipelines
     spec:
       containers:
-      - image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/visualization-server:1.7.0
+      - image: gcr.io/ml-pipeline/visualization-server:1.7.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -3252,7 +3252,7 @@ spec:
         env:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
           value: "true"
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/mysql:5.7
+        image: gcr.io/ml-pipeline/mysql:5.7
         name: mysql
         ports:
         - containerPort: 3306
@@ -3302,7 +3302,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/ml-pipeline/workflow-controller:v3.1.6-patch-license-compliance
+        image: gcr.io/ml-pipeline/workflow-controller:v3.1.6-patch-license-compliance
         livenessProbe:
           failureThreshold: 3
           httpGet:
@@ -3365,7 +3365,7 @@ spec:
         - --logtostderr
         - -v=4
         - --discovery-interval=20s
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/metacontroller:v0.3.0
+        image: metacontroller/metacontroller:v0.3.0
         imagePullPolicy: Always
         name: metacontroller
         ports:

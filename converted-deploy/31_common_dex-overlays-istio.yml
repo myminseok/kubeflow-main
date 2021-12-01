@@ -144,7 +144,7 @@ spec:
         envFrom:
         - secretRef:
             name: dex-oidc-client
-        image: infra-harbor.lab.pcfdemo.net/kubeflow/dexidp/dex:v2.24.0
+        image: quay.io/dexidp/dex:v2.24.0
         name: dex
         ports:
         - containerPort: 5556
