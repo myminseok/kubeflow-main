@@ -226,7 +226,7 @@ Successfully deleted default-tkc-kubeflow--istio-system-istio-ingressgateway.
 
 go back to AVI UI, and delete virtual service and related objects. delete the pool. now you can delete and redeploy ingress object on kubernetes.
 
-### looping to delete notebooks 
+### repeat deleting notebooks 
 ```
 kubectl get notebooks -A
 
